@@ -1,0 +1,52 @@
+#version=DEVEL
+text
+selinux --permissive
+# System authorization information
+auth --enableshadow --passalgo=sha512
+# Use network installation
+url --url="http://<%= @pxe_ip %>/centos7_x64"
+# Run the Setup Agent on first boot
+firstboot --enable
+ignoredisk --only-use=vda
+# Keyboard layouts
+keyboard --vckeymap=us --xlayouts='us'
+# System language
+lang en_US.UTF-8
+reboot
+
+# Network information
+network --bootproto=static --device=eth0 --ip=<%= @node_ip %> --netmask=<%= @node_mask %> --gateway=<%= @pxe_ip %> --nameserver=8.8.8.8 --onboot=yes
+network  --hostname=<%= @server_name %>
+
+# Root password
+rootpw --iscrypted <%= @root_pwd %>
+# System timezone
+timezone Europe/London --isUtc
+# System bootloader configuration
+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=vda
+autopart --type=lvm
+# Partition clearing information
+clearpart --none --initlabel
+
+%packages
+@^minimal
+@core
+kexec-tools
+
+%end 
+
+%post --log=/root/post-ks.log
+systemctl disable NetworkManager.service
+
+mkdir --mode=700 /root/.ssh
+ssh-keygen -b 2048 -f /root/.ssh/id_rsa -t rsa -q -N ""
+cat << EOF > /root/.ssh/authorized_keys
+<%= @ssh_key %>
+EOF
+
+%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+

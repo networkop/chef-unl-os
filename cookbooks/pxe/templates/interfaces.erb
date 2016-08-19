@@ -1,0 +1,10 @@
+
+iface eth10 inet manual
+auto pnet10
+iface pnet10 inet static
+    address <%= @pxe_ip %>
+    netmask <%= @pxe_mask %>
+    bridge_ports eth10
+    bridge_stp off
+    post-up iptables -t nat -A POSTROUTING -o pnet0 -j MASQUERADE
+

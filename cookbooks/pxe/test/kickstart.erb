@@ -1,0 +1,27 @@
+install
+lang en_GB.UTF
+keyboard uk
+auth --useshadow --enablemd5
+selinux --disabled
+firewall --disabled
+eula --agreed
+ignoredisk --only-use=vda
+reboot
+
+rootpw --iscrypted $6$Ro5PkUDAbHzO2H.l$pqcjtJ2Vydg4h9n0/g5S2FlEdfoN61vd6Y5BsGmhLHS7ytAOIBQE12ocbJ5VHp.V60DchAjmO6J.2GLQKMYN..
+
+zerombr
+clearpart --all --initlabel
+autopart
+
+# Network information
+network  --bootproto=static --device=eth0 --gateway=10.0.1.1 --ip=10.0.1.10 --netmask=255.255.255.0 --onboot=off --ipv6=auto
+network  --hostname=openstack-hostname
+
+
+%packages
+@^minimal
+@core
+kexec-tools
+%end
+

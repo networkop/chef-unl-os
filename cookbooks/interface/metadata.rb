@@ -1,0 +1,7 @@
+name 'interface'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures chef_os_intf'
+long_description 'Installs/Configures chef_os_intf'
+version '0.1.0'
