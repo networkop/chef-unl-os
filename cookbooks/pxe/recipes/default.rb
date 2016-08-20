@@ -52,5 +52,5 @@ end
 
 execute 'install ssh provisioner' do
   command 'chef gem install chef-provisioning-ssh'
-  not_if 'chef gem list --local chef-provisioning-ssh'
+  not_if 'chef gem list --local | grep chef-provisioning-ssh'
 end
