@@ -93,6 +93,11 @@ crudini 'CONFIG_COMPUTE_HOSTS' do
   config_file '/root/packstack.answer'
 end
 
+crudini 'CONFIG_KEYSTONE_ADMIN_PW' do
+  value 'openstack'
+  config_file '/root/packstack.answer'
+end
+
 execute 'openstack installation' do
   command 'packstack --answer-file=/root/packstack.answer'
 end

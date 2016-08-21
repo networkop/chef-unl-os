@@ -4,13 +4,11 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-execute 'generate ssh key' do
-  command 'ssh-keygen -b 2048 -f /root/.ssh/id_rsa -t rsa -q -N ""'
-  not_if do ::File.exists?('/root/.ssh/id_rsa') end
-end
-
 if File.exist?('/root/.ssh/id_rsa.pub')
-  node.default.ssh_key = ::File.read('/root/.ssh/id_rsa.pub').chomp
+  node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
+else 
+  command 'ssh-keygen -b 2048 -f /root/.ssh/id_rsa -t rsa -q -N ""'
+  node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
 end
 
 
