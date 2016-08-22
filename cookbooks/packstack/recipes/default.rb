@@ -18,8 +18,8 @@ yum_package 'openstack-packstack'
 yum_package 'crudini'
 
 execute 'generate answer file' do
+  creates '/root/packstack.answer'
   command 'packstack --gen-answer-file=/root/packstack.answer'
-  not_if { ::File.exists?('/root/packstack.answer') }
 end
 
 crudini 'CONFIG_CINDER_INSTALL' do

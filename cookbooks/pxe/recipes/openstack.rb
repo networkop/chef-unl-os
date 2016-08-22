@@ -27,6 +27,6 @@ end
 # 3. Create a blank 6Gb disk image
 
 execute "creating a virtual HDD" do
+  creates "#{node['os_image_dir']}/virtioa.qcow2"
   command "/opt/qemu/bin/qemu-img create -f qcow2 -o preallocation=metadata #{node['os_image_dir']}/virtioa.qcow2 6G"
-  not_if { ::File.exist? "#{node['os_image_dir']}/virtioa.qcow2" }
 end

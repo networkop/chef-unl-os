@@ -4,13 +4,12 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-if File.exist?('/root/.ssh/id_rsa.pub')
-  node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
-else 
+execute 'generate SSH key' do
+  creates '/root/.ssh/id_rsa'
   command 'ssh-keygen -b 2048 -f /root/.ssh/id_rsa -t rsa -q -N ""'
-  node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
 end
 
+node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
 
 include_recipe "#{cookbook_name}::openstack"
 include_recipe "#{cookbook_name}::pxe"
