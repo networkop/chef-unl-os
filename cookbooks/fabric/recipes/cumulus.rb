@@ -1,6 +1,11 @@
 
 #log Chef::JSONCompat.to_json_pretty(node.to_hash)
 
+node_id = node['node_id']
+node_data = node['node_data']
+
+log Chef::JSONCompat.to_json_pretty(node.node_data.to_hash)
+
 # Configure interfaces
 
 file '/tmp/interfaces.erb' do
@@ -11,7 +16,10 @@ end
 ruby_block "insert interface partial" do
   block do
     file = Chef::Util::FileEdit.new("/tmp/interfaces.erb")
-    file.insert_line_if_no_match("interfaces.erb", "<%= render \"interfaces.erb\" %>")
+    file.insert_line_if_no_match("interfaces.erb", "<%= render \"interfaces.erb\", :variables => {:interfaces => @interfaces,
+                                                                                                  :access => @access,
+                                                                                                  :os_lab => @os_lab 
+    } %>")
     file.write_file
   end
 end
@@ -19,10 +27,16 @@ end
 template '/etc/network/interfaces' do
   source '/tmp/interfaces.erb'
   local true
+    variables ({
+   :interfaces => node_data['isl'],
+   :access => node_data['access'],
+   :os_lab => node['os_lab']
+  })
 end
 
-execute 'bring up the interface' do
-  command 'ifup swp1'
+
+execute 'reload all interfaces' do
+    command 'ifreload -a'
 end
 
 # Configure routing protocols
@@ -30,7 +44,7 @@ end
 template '/etc/quagga/Quagga.conf' do
   source 'quagga.erb'
   variables ({
-   :id => node.id
+   :id => node['node_id']
   })
 end
 

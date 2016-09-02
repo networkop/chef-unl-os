@@ -1,0 +1,15 @@
+<% @access.each_with_index do |(interface, host_id), index| %>
+  auto host<%= index %>
+  iface host<%= index %>
+    address <%= @os_lab[host_id.to_s]['fabric']['gw'] %>
+    netmask <%= @os_lab[host_id.to_s]['fabric']['mask'] %>
+    bridge ports <%= interface %>
+    bridge-stp on
+    mstpctl-portadminedge yes
+<% end %>
+
+
+<% @interfaces.each do |interface| %>
+auto <%= interface %>
+iface <%= interface %>
+<% end %>

@@ -33,7 +33,8 @@ default_attributes "os_lab" => {
     "role" => "leaf",
     "access" => {
       "swp1" => 1
-    }
+    },
+    "isl" => ["swp2", "swp3"]
   },
   5 => {
     "role" => "leaf",

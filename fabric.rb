@@ -9,10 +9,11 @@ with_driver 'ssh'
 
 nodes = node['fabric']
 
-nodes.each do |node_id,node_ip|	
-  machine node_ip do
-    recipe 'leaf'
-    attribute 'id', node_id
+nodes.each do |node_id,node_data|	
+  node_ip = "#{node["pxe"]["pfx"]}.#{100+node_id.to_i}"
+  machine "#{node_data['role']}-#{node_id}" do
+    attributes :node_id => node_id, :node_data => node_data, :os_lab => node['os_lab']
+    recipe 'fabric'
     machine_options :transport_options => {
         :host => node_ip,
         :username => 'cumulus',
@@ -21,8 +22,7 @@ nodes.each do |node_id,node_ip|
           :keys => ['/root/.ssh/id_rsa']
         }
       }, :convergence_options => {
-           :chef_version => "12.13.30",
-           :install_sh_path => "/tmp/chef/chef-install.sh"
+           :chef_version => "12.13.30"
       }
   end
 end
