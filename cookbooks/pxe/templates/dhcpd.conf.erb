@@ -25,3 +25,11 @@ subnet <%= @pxe_net %> netmask <%= @pxe_mask %> {
   option domain-name-servers 8.8.8.8;
   next-server <%= @pxe_ip %>;
 }
+
+<%= render "dhcp-static-fabric.erb", :variables => {
+  :fabric => @fabric, 
+  :pxe_prefix => @pxe_prefix, 
+  :tenant_id => @tenant_id,
+  :pxe_ip => @pxe_ip
+ } 
+%>

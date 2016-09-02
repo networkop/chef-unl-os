@@ -29,8 +29,34 @@ default_attributes "os_lab" => {
     }
   }
 }, "fabric" => {
-  1 => '169.254.0.203',
-  2 => '169.254.0.205'
+  4 => {
+    "role" => "leaf",
+    "access" => {
+      "swp1" => 1
+    }
+  },
+  5 => {
+    "role" => "leaf",
+    "access" => {
+      "swp1" => 2
+    },
+    "isl" => ["swp2", "swp3"]
+  },
+  6 => {
+    "role" => "leaf",
+    "access" => {
+      "swp1" => 3
+    },
+    "isl" => ["swp2", "swp3"]
+  },
+  7 => {
+    "role" => "spine",
+    "isl" => ["swp2", "swp3"]
+  },
+  8 => {
+    "role" => "spine",
+    "isl" => ["swp2", "swp3"]
+  }
 }
 
 override_attributes "pxe" => {

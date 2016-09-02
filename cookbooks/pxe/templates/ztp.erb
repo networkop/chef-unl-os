@@ -1,0 +1,24 @@
+#!/bin/bash
+# CUMULUS-AUTOPROVISIONING
+function error() {
+  echo -e "\e[0;33mERROR: The Zero Touch Provisioning script failed while running the command $BASH_COMMAND at line $BASH_LINENO.\e[0m" >&2
+  exit 1
+}
+
+# Log all output from this script
+exec >/var/log/autoprovision 2>&1
+
+ssh-keygen -b 2048 -f /home/cumulus/.ssh/id_rsa -t rsa -q -N ""
+cat << EOF > /home/cumulus/.ssh/authorized_keys
+<%= @ssh_key %>
+EOF
+
+sed -ri 's/%sudo ALL=\(ALL:ALL\) ALL/%sudo ALL=\(ALL:ALL\) NOPASSWD: ALL/' /etc/sudoers
+
+# rename lsb-release to make chef recognise the correct OS version
+mv /etc/lsb-release /etc/lsb-release.chef
+
+# default static to UNL VM
+ip route add default via 169.254.0.1
+
+exit 0

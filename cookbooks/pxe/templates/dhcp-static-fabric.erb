@@ -1,0 +1,10 @@
+option cumulus-provision-url code 239 = text;
+
+<% @fabric.each do |node_id, node_data| %>
+host <%= node_data['role'] %>-<%= node_id %> {
+  hardware ethernet <%= "50:%02d:%02d:%02d:00:00" % [@tenant_id, node_id.to_i / 512, node_id.to_i % 512] %>;
+  fixed-address <%= @pxe_prefix %>.<%= 100+node_id.to_i %>;
+  option host-name "<%= node_data['role'] %>-<%= node_id %>"; 
+  option cumulus-provision-url "http://<%= @pxe_ip %>/cumulus/ztp.sh";
+} 
+<% end %>

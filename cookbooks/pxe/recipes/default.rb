@@ -13,6 +13,7 @@ node.default['ssh_key'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
 
 include_recipe "#{cookbook_name}::openstack"
 include_recipe "#{cookbook_name}::pxe"
+include_recipe "#{cookbook_name}::cumulus"
 
 node['os_lab'].each do |node_id, node_data|
   node_mac = "50:%02d:%02d:%02d:00:00" % [node['unl']['tenant_id'],node_id.to_i / 512, node_id.to_i % 512]

@@ -57,7 +57,9 @@ template '/etc/dhcp/dhcpd.conf' do
    :pxe_net    => node['pxe']['net'],
    :pxe_ip     => node['pxe']['gw'],
    :pxe_mask   => node['pxe']['mask'],
-   :pxe_prefix => node['pxe']['pfx']
+   :pxe_prefix => node['pxe']['pfx'],
+   :fabric     => node['fabric'],
+   :tenant_id  => node['unl']['tenant_id']
   })
 end
 
@@ -83,6 +85,12 @@ directory '/var/lib/tftpboot/centos7_x64' do
   group 'root'
   mode '0755'
   not_if { ::File.directory? '/var/lib/tftpboot/centos7_x64' }
+end
+
+directory '/var/lib/tftpboot/cumulus' do
+  owner 'root'
+  group 'root'
+  mode '0755'
 end
 
 
