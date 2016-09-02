@@ -1,0 +1,14 @@
+!
+router bgp 100
+ bgp router-id 1.1.1.<%= @id %>
+ network 1.1.1.<%= @id %>/32
+ neighbor TEST peer-group
+ neighbor TEST remote-as internal
+ neighbor TEST capability extended-nexthop
+ neighbor swp1 interface
+ neighbor swp1 remote-as internal
+ neighbor swp1 peer-group TEST
+!
+line vty
+!
+

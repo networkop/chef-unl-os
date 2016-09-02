@@ -39,6 +39,10 @@ execute 'enable ip forwarding' do
   command 'sysctl -w net.ipv4.ip_forward=1'
 end
 
+execute 'enable persistent ip forwarding' do
+  command "sudo sed -ri 's/.*(net\.ipv4\.ip_forward).*$/\1=1/' /etc/sysctl.conf"
+end
+
 cookbook_file '/etc/default/tftpd-hpa' do
   source 'tftpd-hpa'
 end

@@ -28,6 +28,9 @@ default_attributes "os_lab" => {
       "route" => "10.0.0.0/8"
     }
   }
+}, "fabric" => {
+  1 => '169.254.0.203',
+  2 => '169.254.0.205'
 }
 
 override_attributes "pxe" => {

@@ -1,0 +1,25 @@
+!
+interface eth0
+ link-detect
+!
+interface lo
+ link-detect
+ ip address 1.1.1.<%= @id %>/32
+!
+interface swp1
+ link-detect
+ no ipv6 nd suppress-ra
+ ipv6 nd ra-interval 5
+!
+interface swp2
+ link-detect
+ no ipv6 nd suppress-ra
+ ipv6 nd ra-interval 5
+!
+ip forwarding
+ipv6 forwarding
+!
+!
+line vty
+!
+
