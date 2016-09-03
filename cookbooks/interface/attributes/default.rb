@@ -1,1 +1,1 @@
-node['default']['fabric_lacp']['name'] = 'bond0'
+default['bond']['name'] = 'bond0'

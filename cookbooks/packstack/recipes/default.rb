@@ -57,11 +57,6 @@ crudini 'CONFIG_NEUTRON_OVS_BRIDGE_MAPPINGS' do
   config_file '/root/packstack.answer'
 end
 
-crudini 'CONFIG_NEUTRON_OVS_BRIDGE_IFACES' do
-  value 'br-ex:eth1'
-  config_file '/root/packstack.answer'
-end
-
 crudini 'CONFIG_NEUTRON_ML2_TYPE_DRIVERS' do
   value 'vxlan,flat'
   config_file '/root/packstack.answer'

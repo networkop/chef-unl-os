@@ -3,6 +3,11 @@
 
 node_id = node['node_id']
 node_data = node['node_data']
+if node_data['role'].eql? 'leaf'
+  bgp_asn = node.default['bgp_asn']['leaf'] + node_id.to_i
+else
+  bgp_asn = node.default['bgp_asn']['spine']
+end
 
 log Chef::JSONCompat.to_json_pretty(node.node_data.to_hash)
 
@@ -47,7 +52,7 @@ template '/etc/quagga/Quagga.conf' do
    :id       => node['node_id'],
    :interfaces => node_data['isl'],
    :bgp_intf => node['isl'],
-   :bgp_asn  => node.default['bgp_asn'][node_data['role']],
+   :bgp_asn  => bgp_asn.to_s,
    :loop_net => node.default['loop_pfx']
   })
 end

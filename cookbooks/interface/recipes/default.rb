@@ -8,7 +8,7 @@ node_ip = node['fabric']['ip']
 node_mask = node['fabric']['mask']
 node_gw = node['fabric']['gw']
 node_route = node['fabric']['route'] 
-bond_name = node['default']['fabric_lacp']['name']
+bond_name = node.default['bond']['name']
 
 if File.exist?('/root/.ssh/id_rsa.pub') && node['role'] == 'controller'
   log "SETTING SSH KEYS"
@@ -61,5 +61,9 @@ end
 
 execute 'bring up the fabric interface' do
   command 'ifup eth1'
+end
+
+execute 'bring up the bond interface' do
+  command "ifup #{bond_name}"
 end
 
