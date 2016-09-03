@@ -12,7 +12,7 @@ interface eth0
  link-detect
 !
 interface lo
- ip address 1.1.1.<%= @id %>/32
+ ip address <%= @loop_net %><%= @id %>/32
  link-detect
 !
 interface swp1
@@ -25,15 +25,17 @@ interface swp2
  link-detect
  no ipv6 nd suppress-ra
 !
-router bgp 100
- bgp router-id 1.1.1.<%= @id %>
- network 1.1.1.<%= @id %>/32
- neighbor TEST peer-group
- neighbor TEST remote-as internal
- neighbor TEST capability extended-nexthop
- neighbor swp1 interface
- neighbor swp1 remote-as internal
- neighbor swp1 peer-group TEST
+router bgp <%= @bgp_asn %>
+ bgp router-id <%= @loop_net %><%= @id %>
+ network <%= @loop_net %><%= @id %>/32
+ redistribute connected 
+ neighbor CLOS peer-group
+ neighbor CLOS remote-as external
+ neighbor CLOS capability extended-nexthop
+<% @interfaces.each do |interface| %>
+ neighbor <%= interface %> interface
+ neighbor <%= interface %> peer-group CLOS
+<% end %>
 !
 ip forwarding
 ipv6 forwarding

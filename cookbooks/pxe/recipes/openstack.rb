@@ -30,3 +30,9 @@ execute "creating a virtual HDD" do
   creates "#{node['os_image_dir']}/virtioa.qcow2"
   command "/opt/qemu/bin/qemu-img create -f qcow2 -o preallocation=metadata #{node['os_image_dir']}/virtioa.qcow2 6G"
 end
+
+
+# Update Cumulus VX template with extra 32MB of RAM and 5 network interfaces
+cookbook_file '/opt/unetlab/html/templates/cumulus.php' do
+  source 'cumulus.php'
+end

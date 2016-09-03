@@ -4,7 +4,7 @@ default_attributes "os_lab" => {
   1 => {
     "role" => "controller",
     "fabric" => {
-      "ip" => "10.0.0.2",
+      "ip" => "10.0.0.0",
       "mask" => "255.255.255.254",
       "gw" => "10.0.0.1",
       "route" => "10.0.0.0/8"
@@ -13,7 +13,7 @@ default_attributes "os_lab" => {
   2 => {
     "role" => "compute",
     "fabric" => {
-      "ip" => "10.0.0.4",
+      "ip" => "10.0.0.2",
       "mask" => "255.255.255.254",
       "gw" => "10.0.0.3",
       "route" => "10.0.0.0/8"
@@ -22,7 +22,7 @@ default_attributes "os_lab" => {
   3 => {
     "role" => "compute",
     "fabric" => {
-      "ip" => "10.0.0.6",
+      "ip" => "10.0.0.4",
       "mask" => "255.255.255.254",
       "gw" => "10.0.0.5",
       "route" => "10.0.0.0/8"
@@ -52,11 +52,11 @@ default_attributes "os_lab" => {
   },
   7 => {
     "role" => "spine",
-    "isl" => ["swp2", "swp3"]
+    "isl" => ["swp4", "swp2", "swp3"]
   },
   8 => {
     "role" => "spine",
-    "isl" => ["swp2", "swp3"]
+    "isl" => ["swp4", "swp2", "swp3"]
   }
 }
 

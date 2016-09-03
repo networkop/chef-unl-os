@@ -8,6 +8,7 @@ node_ip = node['fabric']['ip']
 node_mask = node['fabric']['mask']
 node_gw = node['fabric']['gw']
 node_route = node['fabric']['route'] 
+bond_name = node['default']['fabric_lacp']['name']
 
 if File.exist?('/root/.ssh/id_rsa.pub') && node['role'] == 'controller'
   log "SETTING SSH KEYS"
@@ -26,13 +27,21 @@ end
 template '/etc/sysconfig/network-scripts/ifcfg-eth1' do
   source 'ifcfg-eth1.erb'
   variables ({
-   :ip     => node_ip,
-   :mask   => node_mask
+   :bond_master => bond_name
   })
 end
 
-template '/etc/sysconfig/network-scripts/route-eth1' do 
-  source 'route-eth1.erb'
+template "/etc/sysconfig/network-scripts/ifcfg-#{bond_name}" do
+  source 'ifcfg-bond0.erb'
+  variables ({
+   :ip     => node_ip,
+   :mask   => node_mask,
+   :name   => bond_name
+  })
+end
+
+template "/etc/sysconfig/network-scripts/route-#{bond_name}" do 
+  source 'route-bond0.erb'
   variables ({
    :gw => node_gw,
    :route => node_route
