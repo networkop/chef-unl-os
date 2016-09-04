@@ -29,9 +29,12 @@ router bgp <%= @bgp_asn %>
  neighbor CLOS peer-group
  neighbor CLOS remote-as external
  neighbor CLOS capability extended-nexthop
+ neighbor CLOS allowas-in
 <% @interfaces.each do |interface| %>
  neighbor <%= interface %> interface
  neighbor <%= interface %> peer-group CLOS
+ maximum-paths 4
+ bgp bestpath as-path multipath-relax
 <% end %>
 !
 ip forwarding
