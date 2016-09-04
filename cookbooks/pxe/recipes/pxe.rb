@@ -114,7 +114,8 @@ template '/var/lib/tftpboot/ks/kickstart-default.ks' do
    :root_pwd   => node['password'],
    :pxe_mask   => node['pxe']['mask'],
    :pxe_prefix => node['pxe']['pfx'],
-   :ssh_key    => node['ssh_key']
+   :ssh_key    => node['ssh_key'],
+   :mgmt_intf  => node['mgmt_intf']
   })
 end
 

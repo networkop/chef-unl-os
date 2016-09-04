@@ -15,7 +15,7 @@ lang en_US.UTF-8
 reboot
 
 # Network information
-network --bootproto=static --device=eth0 --ip=<%= @node_ip %> --netmask=<%= @node_mask %> --gateway=<%= @pxe_ip %> --nameserver=8.8.8.8 --onboot=yes
+network --bootproto=static --device=<%= @mgmt_intf %> --ip=<%= @node_ip %> --netmask=<%= @node_mask %> --gateway=<%= @pxe_ip %> --nameserver=8.8.8.8 --onboot=yes
 network  --hostname=<%= @server_name %>
 
 # Root password

@@ -8,7 +8,8 @@ node_ip = node['fabric']['ip']
 node_mask = node['fabric']['mask']
 node_gw = node['fabric']['gw']
 node_route = node['fabric']['route'] 
-bond_name = node.default['bond']['name']
+bond_intf = node.default['bond_intf']
+fabric_intf = node.default['fabric_intf']
 
 if File.exist?('/root/.ssh/id_rsa.pub') && node['role'] == 'controller'
   log "SETTING SSH KEYS"
@@ -24,23 +25,24 @@ execute "Add Controller's key to authorized" do
   not_if 'grep controller ~/.ssh/authorized_keys'
 end
 
-template '/etc/sysconfig/network-scripts/ifcfg-eth1' do
-  source 'ifcfg-eth1.erb'
+template "/etc/sysconfig/network-scripts/ifcfg-#{node.default['fabric_intf']}" do
+  source 'ifcfg-fabric.erb'
   variables ({
-   :bond_master => bond_name
+   :bond_master => bond_intf,
+   :intf_name   => fabric_intf
   })
 end
 
-template "/etc/sysconfig/network-scripts/ifcfg-#{bond_name}" do
+template "/etc/sysconfig/network-scripts/ifcfg-#{bond_intf}" do
   source 'ifcfg-bond0.erb'
   variables ({
    :ip     => node_ip,
    :mask   => node_mask,
-   :name   => bond_name
+   :name   => bond_intf
   })
 end
 
-template "/etc/sysconfig/network-scripts/route-#{bond_name}" do 
+template "/etc/sysconfig/network-scripts/route-#{bond_intf}" do 
   source 'route-bond0.erb'
   variables ({
    :gw => node_gw,
@@ -60,10 +62,10 @@ template '/etc/hosts' do
 end
 
 execute 'bring up the fabric interface' do
-  command 'ifup eth1'
+  command "ifup #{fabric_intf}"
 end
 
 execute 'bring up the bond interface' do
-  command "ifup #{bond_name}"
+  command "ifup #{bond_intf}"
 end
 

@@ -15,7 +15,7 @@ lang en_US.UTF-8
 reboot
 
 # Network information
-network --bootproto=dhcp --device=eth0 --gateway=<%= @pxe_ip %> --nameserver=8.8.8.8 --onboot=yes
+network --bootproto=dhcp --device=<%= @mgmt_intf %> --gateway=<%= @pxe_ip %> --nameserver=8.8.8.8 --onboot=yes
 network --hostname=DEFAULT-HOST
 
 

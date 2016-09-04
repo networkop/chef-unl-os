@@ -10,4 +10,4 @@ default['pxe']['mask'] = '255.255.255.0'
 default['pxe']['pfx'] = '169.254.0'
 default['unl']['tenant_id'] = 0
 default['ssh_key'] = ''
-
+default['mgmt_intf'] = 'ens3'

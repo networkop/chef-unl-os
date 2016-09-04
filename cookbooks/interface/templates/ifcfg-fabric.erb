@@ -1,8 +1,7 @@
 TYPE="Ethernet"
 BOOTPROTO="static"
-NAME="eth1"
-DEVICE="eth1"
+NAME="<%= @intf_name %>"
+DEVICE="<%= @intf_name %>"
 ONBOOT="yes"
 MASTER=<%= @bond_master %>
 SLAVE=yes
-

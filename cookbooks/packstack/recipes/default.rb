@@ -68,7 +68,7 @@ crudini 'CONFIG_PROVISION_DEMO' do
 end
  
 crudini 'CONFIG_NEUTRON_OVS_BRIDGE_IFACES' do
-  value 'br-ex:eth0'
+  value "br-ex:#{node.default['ext_intf']}"
   config_file '/root/packstack.answer'
 end
 

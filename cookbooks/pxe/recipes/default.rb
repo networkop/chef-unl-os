@@ -42,7 +42,8 @@ node['os_lab'].each do |node_id, node_data|
      :root_pwd    => node['password'],
      :node_ip     => node_ip,
      :node_mask   => node_mask,
-     :ssh_key     => node['ssh_key']
+     :ssh_key     => node['ssh_key'],
+     :mgmt_intf   => node['mgmt_intf']
     })
 
   end
