@@ -12,8 +12,8 @@ interface eth0
  link-detect
 !
 interface lo
- ip address <%= @loop_net %><%= @id %>/32
  link-detect
+ ip address <%= @loop_net %><%= @id %>/32
 !
 <% @interfaces.each do |interface| %>
 interface <%= interface %>
@@ -24,8 +24,7 @@ interface <%= interface %>
 !
 router bgp <%= @bgp_asn %>
  bgp router-id <%= @loop_net %><%= @id %>
- network <%= @loop_net %><%= @id %>/32
- redistribute connected 
+ redistribute connected route-map RM-CONNECTED-BGP
  neighbor CLOS peer-group
  neighbor CLOS remote-as external
  neighbor CLOS capability extended-nexthop
@@ -36,6 +35,11 @@ router bgp <%= @bgp_asn %>
  maximum-paths 4
  bgp bestpath as-path multipath-relax
 <% end %>
+!
+route-map RM-CONNECTED-BGP deny 100
+ match interface eth0
+!
+route-map RM-CONNECTED-BGP permit 1000
 !
 ip forwarding
 ipv6 forwarding
