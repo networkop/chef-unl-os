@@ -4,11 +4,7 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-remote_file '/tmp/rdo.rpm' do
-  source 'https://www.rdoproject.org/repos/rdo-release.rpm'
-end
-
-rpm_package '/tmp/rdo.rpm'
+yum_package 'centos-release-openstack-newton'
 
 execute 'yum -y update' do
   command 'yum -y update'
@@ -90,6 +86,11 @@ end
 
 crudini 'CONFIG_KEYSTONE_ADMIN_PW' do
   value 'openstack'
+  config_file '/root/packstack.answer'
+end
+
+crudini 'CONFIG_NEUTRON_OVS_TUNNEL_IF' do
+  value "#{node.default['tunnel_intf']}"
   config_file '/root/packstack.answer'
 end
 
