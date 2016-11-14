@@ -1,0 +1,7 @@
+name 'ovn'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures ovn'
+long_description 'Installs/Configures ovn'
+version '0.1.0'
