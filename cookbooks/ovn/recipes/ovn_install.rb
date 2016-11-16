@@ -3,9 +3,23 @@ if node['node_data']['role'] == 'controller'
 
   include_recipe "#{cookbook_name}::ovn_build"
 
+  package 'python-networking-ovn.noarch'
+
+  service 'neutron-l3-agent' do
+    action [:disable, :stop]
+  end
+
+  service 'neutron-dhcp-agent' do
+    action [:disable, :stop]
+  end
+
 end
 
 package 'python-networking-ovn.noarch'
+
+rpm_package 'install kernel modules' do
+  source "/tmp/openvswitch-kmod-#{node.default['ovn']['version']}.x86_64.rpm"
+end
 
 rpm_package 'upgrade ovs' do
   source "/tmp/openvswitch-#{node.default['ovn']['version']}.x86_64.rpm"
@@ -32,7 +46,6 @@ elsif node['node_data']['role'] == 'compute'
   rpm_package 'ovn host' do
     source "/tmp/openvswitch-ovn-host-#{node.default['ovn']['version']}.x86_64.rpm"
   end
-
 end
 
 service 'openvswitch' do
