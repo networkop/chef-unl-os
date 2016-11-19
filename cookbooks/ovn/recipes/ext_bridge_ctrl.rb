@@ -19,6 +19,11 @@ template "/etc/sysconfig/network-scripts/ifcfg-br-ex" do
   source 'controller-br_ex.erb'
 end
 
+execute 'remove interface from ovsdb' do
+  command "ovs-vsctl del-port br-ex #{node.default['ext_int']}"
+  ignore_failure true
+end
+
 service 'network' do
   action [:restart]
 end

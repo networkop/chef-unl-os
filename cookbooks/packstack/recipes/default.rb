@@ -4,7 +4,30 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-yum_package 'centos-release-openstack-newton'
+
+
+if node.default['bleedingedge']
+
+  remote_file '/etc/yum.repos.d/delorean-deps.repo' do
+    source 'http://trunk.rdoproject.org/centos7/delorean-deps.repo'
+  end
+
+  remote_file '/etc/yum.repos.d/delorean.repo' do
+    source 'https://trunk.rdoproject.org/centos7-master/current/delorean.repo'
+  end
+
+  for ip in node['os_nodes']['compute_nodes'] do
+    execute 'copy repos to other nodes' do
+      command "scp -oStrictHostKeyChecking=no /etc/yum.repos.d/delorean* #{ip}://etc/yum.repos.d/" 
+    end
+  end
+
+else
+
+  yum_package 'centos-release-openstack-newton'
+
+end
+
 
 execute 'yum -y update' do
   command 'yum -y update'
@@ -93,6 +116,12 @@ crudini 'CONFIG_NEUTRON_OVS_TUNNEL_IF' do
   value "#{node.default['tunnel_intf']}"
   config_file '/root/packstack.answer'
 end
+
+crudini 'CONFIG_USE_EPEL' do
+  value 'y'
+  config_file '/root/packstack.answer'
+end
+
 
 execute 'openstack installation' do
   command 'packstack --answer-file=/root/packstack.answer'

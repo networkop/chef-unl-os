@@ -103,7 +103,7 @@ if node['node_data']['role'] == 'controller'
 elsif node['node_data']['role'] == 'compute'
   
   service 'openvswitch' do
-    action :restart
+    action :start
   end
 
   execute 'point OVS to sbdb' do

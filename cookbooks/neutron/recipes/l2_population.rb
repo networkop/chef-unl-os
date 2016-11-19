@@ -1,4 +1,4 @@
-if node['role'] == 'controller'
+if node['node_data']['role'] == 'controller'
 
   crudini 'mechanism_drivers' do
     value node.default['mechanism_drivers'].join(',')

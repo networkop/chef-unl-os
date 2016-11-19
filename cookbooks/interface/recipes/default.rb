@@ -4,14 +4,14 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-node_ip = node['fabric']['ip']
-node_mask = node['fabric']['mask']
-node_gw = node['fabric']['gw']
-node_route = node['fabric']['route'] 
+node_ip = node['node_data']['fabric']['ip']
+node_mask = node['node_data']['fabric']['mask']
+node_gw = node['node_data']['fabric']['gw']
+node_route = node['node_data']['fabric']['route'] 
 bond_intf = node.default['bond_intf']
 fabric_intf = node.default['fabric_intf']
 
-if File.exist?('/root/.ssh/id_rsa.pub') && node['role'] == 'controller'
+if File.exist?('/root/.ssh/id_rsa.pub') && node['node_data']['role'] == 'controller'
   log "SETTING SSH KEYS"
   node.normal['controller_ssh'] = ::File.read('/root/.ssh/id_rsa.pub').chomp
 end

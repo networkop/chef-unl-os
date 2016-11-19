@@ -1,5 +1,5 @@
 
-if node['role'] == 'controller'
+if node['node_data']['role'] == 'controller'
 
   execute "Safely uncomment setting" do
     command "sed -ri 's/^#(router_distributed.*$)/\\1/' /etc/neutron/neutron.conf"
@@ -27,7 +27,7 @@ if node['role'] == 'controller'
     action [:restart]
   end
 
-elsif node['role'] == 'compute'
+elsif node['node_data']['role'] == 'compute'
   
   include_recipe "#{cookbook_name}::ext_bridge"
 

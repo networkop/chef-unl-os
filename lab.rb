@@ -14,7 +14,7 @@ compute_nodes = nodes.select{ |k,v| v['role'] == 'compute'}.keys.map{ |id| "#{no
 nodes.each do |node_id,node_data|
   node_ip = "#{node["pxe"]["pfx"]}.#{10+node_id.to_i}"
   machine "#{node_data['role']}-#{node_id}" do
-    attributes node_data 
+    attributes :node_data => node_data
     recipe 'interface'
     machine_options :transport_options => {
       :host => node_ip,
