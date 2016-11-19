@@ -15,6 +15,7 @@ bash 'bootstrap' do
     ./boot.sh
     ./configure --prefix=/usr --localstatedir=/var --sysconfdir=/etc
     make rpm-fedora RPMBUILD_OPT="--without check"
+    make rpm-fedora-kmod
     EOH
 end
 

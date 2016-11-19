@@ -17,6 +17,10 @@ end
 
 package 'python-networking-ovn.noarch'
 
+rpm_package 'install kernel modules' do
+  source "/tmp/openvswitch-kmod-#{node.default['ovn']['version']}.x86_64.rpm"
+end
+
 rpm_package 'upgrade ovs' do
   source "/tmp/openvswitch-#{node.default['ovn']['version']}.x86_64.rpm"
   action :upgrade
