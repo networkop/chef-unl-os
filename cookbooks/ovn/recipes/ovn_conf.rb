@@ -122,8 +122,16 @@ elsif node['node_data']['role'] == 'compute'
     command "ovs-vsctl set open . external-ids:ovn-encap-ip=#{node['node_data']['fabric']['ip']}"
   end
 
+  execute 'configure external bridge mapping' do
+    command 'ovs-vsctl set Open_vSwitch . external-ids:ovn-bridge-mappings=extnet:br-ex'
+  end
+
   service 'ovn-controller' do
     action :start
+  end
+  
+  service 'network' do
+    action :restart
   end
 
 end

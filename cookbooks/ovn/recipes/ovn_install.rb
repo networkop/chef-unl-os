@@ -49,6 +49,9 @@ elsif node['node_data']['role'] == 'compute'
 end
 
 service 'openvswitch' do
-  action [:restart]
+  action :restart
 end
 
+service 'network' do
+  action :restart
+end
