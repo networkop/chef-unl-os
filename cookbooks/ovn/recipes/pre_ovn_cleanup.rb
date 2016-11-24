@@ -1,4 +1,5 @@
-include_recipe "#{cookbook_name}::ext_bridge_ctrl"
+
+include_recipe "#{cookbook_name}::ext_bridge_clear"
 
 execute 'delete ovs db' do
   command 'rm -rf /etc/openvswitch/*'
@@ -17,5 +18,5 @@ service 'network' do
 end
 
 if node['node_data']['role'] == 'compute'
-  include_recipe "#{cookbook_name}::ext_bridge_comp"
+  include_recipe "#{cookbook_name}::ext_bridge_create"
 end

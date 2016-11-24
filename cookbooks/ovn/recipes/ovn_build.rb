@@ -3,6 +3,10 @@ for pkg in node.default['ovn']['req'] do
   yum_package pkg  
 end
 
+for pkg in node.default['ovn']['extra'] do
+  yum_package pkg
+end
+
 git '/tmp/ovs' do
   repository node.default['ovn']['git']
   :checkout

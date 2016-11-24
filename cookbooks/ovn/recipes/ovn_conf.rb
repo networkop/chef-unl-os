@@ -100,6 +100,10 @@ if node['node_data']['role'] == 'controller'
     action :restart
   end
 
+  service 'ovn-northd' do
+    action :restart
+  end
+
 elsif node['node_data']['role'] == 'compute'
   
   service 'openvswitch' do
