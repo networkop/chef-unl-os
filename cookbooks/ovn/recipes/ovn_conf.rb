@@ -3,11 +3,11 @@ yum_package 'python-networking-ovn'
 if node['node_data']['role'] == 'controller'
 
   service 'openvswitch' do
-    action :start
+    action [:start, :enable]
   end
 
   service 'ovn-northd' do
-    action :start
+    action [:start, :enable]
   end
 
   crudini 'core_plugin' do
@@ -127,7 +127,7 @@ elsif node['node_data']['role'] == 'compute'
   end
 
   service 'ovn-controller' do
-    action :start
+    action [:start, :enable]
   end
   
   service 'network' do
